@@ -1,0 +1,9 @@
+numpy
+Flask
+flask-ipfilter
+matplotlib
+protobuf
+requests
+sentence-transformers
+sentencepiece
+transformers
