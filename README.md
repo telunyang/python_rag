@@ -24,6 +24,9 @@ conda create -n rag python=3.10 ipykernel
 
 # 切換到剛安裝好的 conda 環境
 conda activate rag
+
+# 刪除 conda 環境
+conda remove -n rag --all
 ```
 
 ## 作業環境
@@ -62,7 +65,7 @@ pip install -r requirements.txt
   - 資料表名稱：
     - `laws_full` -> 法律/法規的所有條文
     - `laws_part` -> 法律/法規的某個條文
-    - `laws_row`  -> 法律/法規的特定條文的某一句話
+    - `laws_sent` -> 法律/法規的特定條文的某一句話
 
 ## 操作指令
 1. 先使用 `chart.ipynb` 來評估要以整部法規、各別條文，還是條文的項、款、目來作為 chunks。
