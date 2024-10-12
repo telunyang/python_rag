@@ -185,7 +185,7 @@ def generate():
             # no_repeat_ngram_size=3,
             # early_stopping=True, 
             pad_token_id=tokenizer.eos_token_id,
-            streamer=streamer # `streamer` cannot be used with beam search (yet!). Make sure that `num_beams` is set to 1.
+            streamer=streamer 
         )
 
         # 透過 thread 取得生成結果
