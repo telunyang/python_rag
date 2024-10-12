@@ -41,12 +41,12 @@ pip install -r requirements.txt
 ## 會使用到的模型
 嵌入模型
   - BAAI/**bge-m3** [連結](https://huggingface.co/BAAI/bge-m3)
-    - 提供語義搜尋 (semantic search) 的功能：依「相似度」對文字（字詞、句子、段落、文件等）的 embeddings 進行排序
-    - 支援最高 8192 tokens，會產生 embeddings
-    - 幫助我們理解從資料庫檢索/查詢出來的知識（法規、條文）
+    - 提供語義搜尋 (semantic search) 的功能：依「相似度」對文字（字詞、句子、段落、文件等）的 embeddings 進行排序。
+    - 支援最高 8192 tokens，會產生 embeddings。
+    - 幫助我們理解從資料庫檢索/查詢出來的知識（法規、條文）。
   - BAAI/**bge-reranker-large** [連結](https://huggingface.co/BAAI/bge-reranker-large)
-    - 提供重新排序 (re-rank) 的功能：依「相關性」對文字（字詞、句子、段落、文件等）的 embeddings 進行重新排序
-    - 僅重新排序 embeddings，不會另外產生 embeddings
+    - 提供重新排序 (re-rank) 的功能：依「相關性」對文字（字詞、句子、段落、文件等）的 embeddings 進行重新排序。
+    - 僅重新排序 embeddings，不會另外產生 embeddings。
   - 以臺北市立圖書館的常見問答為例：[連結](https://tpml.gov.taipei/)
 
 語言模型
