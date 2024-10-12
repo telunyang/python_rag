@@ -28,7 +28,7 @@ conda activate rag
 
 ## 安裝套件
 ```bash
-pip install -r requestments.txt
+pip install -r requirements.txt
 ```
 
 ## 會使用到的模型
