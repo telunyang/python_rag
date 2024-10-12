@@ -59,7 +59,7 @@ tokenizer = AutoTokenizer.from_pretrained(llm_name)
 # 建立 TextIteratorStreamer 物件
 streamer = TextIteratorStreamer(tokenizer=tokenizer)
 
-# 讀取 model
+# 讀取 embedding models
 bi_encoder = SentenceTransformer('BAAI/bge-m3', device='cuda:0')
 cross_encoder = CrossEncoder('BAAI/bge-reranker-large', device='cuda:0')
 
