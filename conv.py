@@ -18,7 +18,7 @@ cursor = conn.cursor()
 資料表名稱:
 laws_full -> 法律/法規的所有條文
 laws_part -> 法律/法規的某個條文
-laws_row  -> 法律/法規的特定條文的某一句話
+laws_sent -> 法律/法規的特定條文的某一句話
 '''
 
 # 定義 SQL 語法
@@ -41,7 +41,6 @@ passage_embeddings = bi_encoder.encode(
     passages, 
     batch_size=2, 
     device='cuda:0',
-    convert_to_tensor=False, 
     show_progress_bar=True
 )
 
