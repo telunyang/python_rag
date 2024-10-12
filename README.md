@@ -12,6 +12,10 @@
 - 如何使用 semantic search 和 re-ranking。
 - 了解使用 RAG 和沒有使用 RAG 的差異。
 
+## 整合式開發環境 (IDE)
+- Visual Studio Code (vscode) [連結](https://code.visualstudio.com/)
+  - vscode 擴充功能：SQLite3 Editor
+
 ## 環境設定
 - Anaconda Installers [連結](https://www.anaconda.com/download/success)
 ```bash
@@ -44,10 +48,6 @@ pip install -r requirements.txt
 
 語言模型
   - MediaTek-Research/**Breeze-7B-Instruct-v1_0** [連結](https://huggingface.co/MediaTek-Research/Breeze-7B-Instruct-v1_0) 
-
-## 整合式開發環境 (IDE)
-- Visual Studio Code (vscode) [連結](https://code.visualstudio.com/)
-  - vscode 擴充功能：SQLite3 Editor
 
 ## 背景知識來源
 - 全國法規資料庫 [連結](https://law.moj.gov.tw/)
