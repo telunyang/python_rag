@@ -15,7 +15,11 @@
 ## 環境設定
 - Anaconda Installers [連結](https://www.anaconda.com/download/success)
 ```bash
+# 安裝 conda 環境
 conda create -n rag python=3.10 ipykernel
+
+# 切換到剛安裝好的 conda 環境
+conda activate rag
 ```
 
 ## 作業環境
