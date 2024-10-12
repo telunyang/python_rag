@@ -4,7 +4,7 @@
 ![](https://i.imgur.com/QZxb7ZP.png)
 圖：RAG 常見架構
 
-![](https://i.imgur.com/Lbo0Zwi.png)
+![](https://i.imgur.com/UEL7DFT.png)
 圖：本範例的實作流程
 
 ## 從這裡可以學到什麼
