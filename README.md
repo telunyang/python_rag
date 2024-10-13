@@ -101,9 +101,9 @@ pip install -r requirements.txt
     # 測試 RAG 的 dense vector search 功能 (要先建立 emb.pkl 檔)
     time python test_dense_vector_search.py
     ```
-3. 在終端機啟動跟語言模型對話的 Web API 服務
+3. 在終端機啟動跟語言模型對話的 Web API 服務 ([tmux 教學網頁](https://blog.gtwang.org/linux/linux-tmux-terminal-multiplexer-tutorial/))
     ```bash
-    # 安裝 tmux (教學網頁: https://blog.gtwang.org/linux/linux-tmux-terminal-multiplexer-tutorial/)
+    # 安裝 tmux
     sudo apt-get install tmux
 
     # 建立終端機（terminal）的 session
