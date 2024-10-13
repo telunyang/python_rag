@@ -22,8 +22,12 @@
 - Visual Studio Code (vscode) [連結](https://code.visualstudio.com/)
   - vscode 擴充功能：SQLite3 Editor
 
-## 環境設定
-- Anaconda Installers [連結](https://www.anaconda.com/download/success)
+## Conda 環境設定
+安裝 Conda (二者擇一即可)
+  - Anaconda [連結](https://www.anaconda.com/download/success)
+  - Miniconda [](https://docs.anaconda.com/miniconda/#quick-command-line-install)
+
+建立 Conda 虛擬環境
 ```bash
 # 安裝 conda 環境
 conda create -n rag python=3.10 ipykernel
@@ -31,7 +35,7 @@ conda create -n rag python=3.10 ipykernel
 # 切換到剛安裝好的 conda 環境
 conda activate rag
 
-# 刪除 conda 環境
+# (Optional) 刪除 conda 環境
 conda remove -n rag --all
 ```
 
