@@ -43,7 +43,7 @@ conda remove -n rag --all
 pip install -r requirements.txt
 ```
 
-## Bi-encoder & Cross-encoder
+## Bi-Encoder & Cross-Encoder
 - Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks [論文](https://arxiv.org/abs/1908.10084)
 ![](https://i.imgur.com/OAsiTUU.png)
 圖：雙向編碼器與交叉編碼器
