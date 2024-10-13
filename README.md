@@ -135,7 +135,7 @@ pip install -r requirements.txt
     ```
 6. 關閉 tmux session
     ```bash
-    # 在可以輸入指令的狀態下
+    # 確認目前在 tmux session 當中，在可以輸入指令的狀態下
     輸入 exit 後，按下 enter，回到 Terminal
     ```
 
