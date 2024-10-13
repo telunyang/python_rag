@@ -131,6 +131,28 @@ pip install -r requirements.txt
 
 ## 有關文字生成的策略
 - [How to generate text: using different decoding methods for language generation with Transformers](https://huggingface.co/blog/how-to-generate)
+- Sampling
+    ```python
+    generation_kwargs = dict(
+        ... 
+        do_sample=True, 
+        temperature=0.7, 
+        top_k=50, 
+        top_p=0.9,
+        ...
+    )
+    ```
+- Greedy Search or Beam Search
+    ```python
+    generation_kwargs = dict(
+        ...
+        do_sample=False, 
+        num_beams=5, 
+        no_repeat_ngram_size=2,
+        early_stopping=True,
+        ...
+    )
+    ```
 
 ## 常見問題
 1. **為什麼使用 RAG 當作問答系統的架構？**
