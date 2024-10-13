@@ -139,7 +139,9 @@ pip install -r requirements.txt
 2. **Chunking Size 設定多少比較合適？**
 
     個人認為 chunking size 只是一個概念，常見如每 128/256/512/1024 tokens 截斷一次，有時反而會失去原有的語義。人類寫作的時候，無論是單詞的使用、句子的成形、段落的舖陳，甚至是整篇文章所傳達的訊息，都有他的意義，例如迴文「上海自來水來自海上」，如果 chunking size 為 4，可能會被分成「上海自來」、「水來自海」、「上」這三個部分，如此一來，便失去原先要表達的意涵。
+
     可能較好的方式，就是針對不同文件的內容，客製化建立它們的 chunks。例如一篇文章是常見作文，可以將每一個段落視為 chunk，若是文章當中有段落也有表格，可以將段落與表格分別建立 chunk，有時候段落和表格的前面加上原始文件的標題或是表格內容的摘要，檢索效果較好；若文章中的每個句子或短文都有各別的意義，例如成語、國語辭典（有時候包括解釋說明），那就以句子或短文形式來建立 chunk。
+
     倘若 Embedding model 的 max_seq_length 很大（可以理解更長的文字資料），有時候不進行 chunking 也是一種選擇。
 
 3. **文件內容結構太複雜，怎麼辦？**
@@ -149,8 +151,17 @@ pip install -r requirements.txt
 4. **有其它檢索方案可以使用嗎？**
 
     如果指的是案例中的向量檢索，可以考慮使用 [Huggingface: intfloat](https://huggingface.co/intfloat) 的 E5 模型，它是直接以 Question-Answer 成對關係的資料進行訓練，或許不需要進行 semantic search + re-ranking，直接以 QA 格式進行相似度比對。bge-m3 可以支援到 8192 tokens，如果其用其它 embedding model，要連同資料可能佔用的 tokens (例如可支援的 max_seq_length) 一起考慮進去。
-    如果指的是以統計量為基礎的檢索方法，可以考慮使用 [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) 進行檢索。它結合了 [TF-IDF](https://zh.wikipedia.org/zh-tw/Tf-idf) 和[詞袋模型](https://zh.wikipedia.org/zh-tw/词袋模型)的特性，加入了文件平均長度等元素，增強了檢索的效果。在實務中，BM25 通常可以達到很好的效果，若是沒有辦法使用向量檢索（例如沒有 GPU、主機效能不佳等因素），推薦使用 BM25，惟 BM25 需要針對特定領域建立關鍵字詞庫（例如 [jieba](https://github.com/fxsjy/jieba) 的 `jieba.load_userdict()` 功能），如果沒有預先整理出合適的關鍵字詞庫，檢索效果可能會不如預期。
+
+    如果指的是以統計量為基礎的檢索方法，可以考慮使用 [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) 進行檢索。它結合了 [TF-IDF](https://zh.wikipedia.org/zh-tw/Tf-idf) 和[詞袋模型](https://zh.wikipedia.org/zh-tw/词袋模型)的特性，加入了文件平均長度等元素，增強了檢索的效果。
+    
+    在實務中，BM25 通常可以達到很好的效果，若是沒有辦法使用向量檢索（例如沒有 GPU、主機效能不佳等因素），推薦使用 BM25，惟 BM25 需要針對特定領域建立關鍵字詞庫（例如 [jieba](https://github.com/fxsjy/jieba) 的 `jieba.load_userdict()` 功能），如果沒有預先整理出合適的關鍵字詞庫，檢索效果可能會不如預期。
 
 5. **一定要使用 Re-ranking 嗎？**
 
     視任務需求而定，如果你只是希望找到跟查詢字串相似度高的文字資料（例如用 Question 搜尋很相似的 Question），語義搜尋就足夠了；倘若文字資料混雜了很多資訊，例如 Questions 和 Answers 都放在一起，沒有區分，使用 Re-ranking 的話，用來回答查詢字串的 Answers 有可能因為排名提升而被看見。
+
+6. **Pickle 檔案太大，怎麼辦？**
+
+    可以考慮使用 [FAISS](https://github.com/facebookresearch/faiss)、[ElasticSearch](https://www.elastic.co/elasticsearch/vector-database)、[Milvus](https://milvus.io/)、[Weaviate](https://weaviate.io/) 等向量索引/資料庫儲存工具，可以更便利地使用/儲存向量，適合進階使用者。
+
+    另一種作法，就是將不同用途或種類的 Pickle 檔案區分開來，需要用到的時候才讀取，不需要則釋放，彈性地使用 Pickle 檔。
