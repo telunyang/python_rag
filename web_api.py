@@ -1,10 +1,17 @@
 import torch
 import pickle
-from time import sleep
 from threading import Thread
 import logging
-from sentence_transformers import SentenceTransformer, CrossEncoder, util
-from transformers import  AutoModelForCausalLM, AutoTokenizer, TextIteratorStreamer
+from sentence_transformers import (
+    SentenceTransformer, 
+    CrossEncoder, 
+    util
+)
+from transformers import (
+    AutoModelForCausalLM, 
+    AutoTokenizer, 
+    TextIteratorStreamer
+)
 from flask import Flask, request
 from flask_ipfilter import IPFilter, Whitelist
 
@@ -13,9 +20,13 @@ log_filename = 'web_api'
 logger = logging.getLogger(log_filename)
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(message)s')
-fileHandler = logging.FileHandler(f'{log_filename}.log', mode='w', encoding='utf-8')
+fileHandler = logging.FileHandler(
+    f'{log_filename}.log', mode='w', encoding='utf-8'
+)
 fileHandler.setFormatter(formatter)
 logger.addHandler(fileHandler)
+
+# 在 Terminal 介面同時顯示 logging 的內容
 # console_handler = logging.StreamHandler()
 # console_handler.setFormatter(formatter)
 # logger.addHandler(console_handler)
@@ -72,7 +83,7 @@ with open(emb_file_path, "rb") as fIn:
     del stored_data
 
 # 取得 semantic search + re-ranking 之後的結果
-def get_resutls(query, search_size, top_k):
+def get_results(query, search_size, top_k):
     # 取得 query 的 embedding
     question_embedding = bi_encoder.encode(
         query, 
@@ -127,7 +138,7 @@ def generate():
         top_k = 5
 
         # 取得 retrieval 的結果
-        results, scores = get_resutls(message, search_size, top_k)
+        results, scores = get_results(message, search_size, top_k)
 
         # 將結果轉換成文字
         knowledge = ''
