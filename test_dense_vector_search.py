@@ -3,7 +3,6 @@
 $ pip install sentence-transformers
 '''
 import pickle
-from pprint import pprint
 from sentence_transformers import SentenceTransformer, CrossEncoder, util
 
 
@@ -17,6 +16,17 @@ query = '''依票據法規定，票據上記載金額之文字與號碼不符時
 (D)以探求當事人真意為準'''
 print("查詢文字:", query)
 
+'''
+讀取 Passages 和對應的 Embeddings
+'''
+# 讀取 embeddings 和 passages
+emb_file_path = "emb.pkl"
+with open(emb_file_path, "rb") as fIn:
+    stored_data = pickle.load(fIn)
+    passage_embeddings = stored_data['passage_embeddings']
+    passages = stored_data['passages']
+    del stored_data
+
 
 print("=" * 80)
 
@@ -26,14 +36,6 @@ Semantic Search 階段
 '''
 ##### Semantic Search #####
 bi_encoder = SentenceTransformer('BAAI/bge-m3', device='cuda:0')
-
-# 讀取 embeddings 和 passages
-emb_file_path = "emb.pkl"
-with open(emb_file_path, "rb") as fIn:
-    stored_data = pickle.load(fIn)
-    passage_embeddings = stored_data['passage_embeddings']
-    passages = stored_data['passages']
-    del stored_data
 
 # 取得 query 的 embedding
 question_embedding = bi_encoder.encode(
@@ -45,7 +47,7 @@ question_embedding = bi_encoder.encode(
 # 透過語義搜尋檢索出來的文章數量
 SEARCH_SIZE = 100
 
-# 重新排序後，取得前幾筆資料
+# 取得前幾筆資料
 TOP_K = 5
 
 # 語義搜尋
