@@ -40,8 +40,10 @@ conda remove -n rag --all
 ```
 
 ## 作業環境
-- Ubuntu Linux Server 22.04
+- Ubuntu 22.04.4 LTS
 - nVIDIA GeForce RTX 3090 * 1 (GPU memory: 24 GB)
+  - Driver Version: 535.183.01
+  - Cuda compilation tools, release 12.1, V12.1.66
 
 ## Bi-Encoder & Cross-Encoder
 - Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks [論文](https://arxiv.org/abs/1908.10084)
