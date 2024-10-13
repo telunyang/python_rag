@@ -1,7 +1,7 @@
-numpy
 Flask
 flask-ipfilter
 matplotlib
+numpy
 protobuf
 requests
 sentence-transformers
