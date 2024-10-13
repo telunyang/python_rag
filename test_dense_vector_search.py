@@ -3,7 +3,11 @@
 $ pip install sentence-transformers
 '''
 import pickle
-from sentence_transformers import SentenceTransformer, CrossEncoder, util
+from sentence_transformers import (
+    SentenceTransformer, 
+    CrossEncoder, 
+    util
+)
 
 
 '''
@@ -51,7 +55,11 @@ SEARCH_SIZE = 100
 TOP_K = 5
 
 # 語義搜尋
-hits = util.semantic_search(question_embedding, passage_embeddings, top_k=SEARCH_SIZE)
+hits = util.semantic_search(
+    question_embedding, 
+    passage_embeddings, 
+    top_k=SEARCH_SIZE
+)
 hits = hits[0]
 
 print(f"Top-{TOP_K} Bi-Encoder Retrieval hits (Semantic Search)")
