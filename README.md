@@ -25,7 +25,7 @@
 ## Conda 環境設定
 安裝 Conda (二者擇一即可)
   - Anaconda [連結](https://www.anaconda.com/download/success)
-  - Miniconda [](https://docs.anaconda.com/miniconda/#quick-command-line-install)
+  - Miniconda [連結](https://docs.anaconda.com/miniconda/#quick-command-line-install)
 
 建立 Conda 虛擬環境
 ```bash
