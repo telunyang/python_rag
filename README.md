@@ -185,6 +185,6 @@ pip install -r requirements.txt
 
 6. **Pickle 檔案太大，怎麼辦？**
 
-    可以考慮使用 [FAISS](https://github.com/facebookresearch/faiss)、[ElasticSearch](https://www.elastic.co/elasticsearch/vector-database)、[Milvus](https://milvus.io/)、[Weaviate](https://weaviate.io/) 等向量索引/資料庫儲存工具，可以更便利地使用/儲存向量，適合進階使用者。
+    有一種作法，就是將不同用途或種類的 Pickle 檔案區分開來，需要用到的時候才讀取，不需要則釋放，彈性地使用 Pickle 檔。
 
-    另一種作法，就是將不同用途或種類的 Pickle 檔案區分開來，需要用到的時候才讀取，不需要則釋放，彈性地使用 Pickle 檔。
+    如果你是進階使用者，可以考慮使用 [FAISS](https://github.com/facebookresearch/faiss)、[ElasticSearch](https://www.elastic.co/elasticsearch/vector-database)、[Milvus](https://milvus.io/)、[Weaviate](https://weaviate.io/) 等向量索引/資料庫儲存工具，可以更便利地使用/儲存向量。
