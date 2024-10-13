@@ -15,12 +15,12 @@
 
 ## 先備知識
 - 閱讀或學習過 Natural Language Processing (NLP) 相關知識。
-- Python 程式開發經驗。
+- Python 程式開發經驗，有 matplotlib 套件使用基礎尤佳。
 - 以 Transformer 神經網路為基礎的模型使用經驗。
 
 ## 整合式開發環境 (IDE)
 - Visual Studio Code (vscode) [連結](https://code.visualstudio.com/)
-  - vscode 擴充功能：SQLite3 Editor
+  - vscode 擴充功能：`SQLite3 Editor`
 
 ## Conda 環境設定
 安裝 Conda (二者擇一即可)
@@ -41,7 +41,7 @@ conda remove -n rag --all
 
 ## 作業環境
 - Ubuntu Linux Server 22.04
-- nVIDIA GeForce RTX 3090 * 1
+- nVIDIA GeForce RTX 3090 * 1 (GPU memory: 24 GB)
 
 ## Bi-Encoder & Cross-Encoder
 - Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks [論文](https://arxiv.org/abs/1908.10084)
@@ -52,15 +52,15 @@ conda remove -n rag --all
 Embedding model:
   - BAAI/**bge-m3** [連結](https://huggingface.co/BAAI/bge-m3) [論文](https://arxiv.org/abs/2402.03216)
     - 雙向編碼器。
-    - 提供語義搜尋 (semantic search) 的功能：依「相似度」對文字（句子、段落、文件等）的 embeddings 進行排序。
+    - 提供語義搜尋 (semantic search) 的功能：依「相似度」對文字（句子、段落、文件等）所代表的 embeddings 進行比對與排序。
     - 支援最高 8192 tokens，會產生 embeddings。
     - 幫助我們理解從資料庫檢索/查詢出來的知識（法規、條文）。
-    - 使用 Question 搜尋相似的 Text (Question)。
+    - 使用搜尋與查詢字串相似的文字，例如用 Question 找出相似的 Question。
   - BAAI/**bge-reranker-large** [連結](https://huggingface.co/BAAI/bge-reranker-large)
     - 交叉編碼器。
-    - 提供重新排序 (re-rank) 的功能：依「相關性」對文字（句子、段落、文件等）的 embeddings 進行重新排序。
+    - 提供重新排序 (re-rank) 的功能：依「相關性」對文字（句子、段落、文件等）所代表的 embeddings 進行重新排序。
     - 僅重新排序 embeddings，不會另外產生 embeddings。
-    - 使用 Question 找出相關性高的 Text (Answer)。
+    - 找出可以回答問題的文字，例如找出與 Question 相關性高，可以用來回答 Question 的 Answer。
   - 以臺北市立圖書館的常見問答為例：[連結](https://tpml.gov.taipei/)
 
 語言模型
@@ -171,7 +171,7 @@ pip install -r requirements.txt
 ## 常見問題
 1. **為什麼使用 RAG 當作問答系統的架構？**
 
-    當沒有資源去預訓練或微調一個大型語言模型（LLM）來於回答特定的問題時，可以透過資訊檢索的技術，將檢索結果當作 LLM 回答問題的參考資訊或背景知識，讓 LLM 可以依據資訊或知識來回答使用者的提問。
+    當沒有資源去預訓練或微調一個大型語言模型（LLM）來用於回答特定的問題時，可以透過資訊檢索的技術，將檢索結果當作 LLM 回答問題的參考資訊或背景知識，讓 LLM 可以依據資訊或知識來回答使用者的提問。
 
 2. **Chunking Size 設定多少比較合適？**
 
@@ -179,23 +179,23 @@ pip install -r requirements.txt
 
     可能較好的方式，就是針對不同文件的內容，客製化建立它們的 chunks。例如一篇文章是常見作文，可以將每一個段落視為 chunk，若是文章當中有段落也有表格，可以將段落與表格分別建立 chunk，有時候段落和表格的前面加上原始文件的標題或是表格內容的摘要，檢索效果較好；若文章中的每個句子或短文都有各別的意義，例如成語、國語辭典（有時候包括解釋說明），那就以句子或短文形式來建立 chunk。
 
-    倘若 Embedding model 的 max_seq_length 很大（可以理解更長的文字資料），有時候不進行 chunking 也是一種選擇。
+    倘若 embedding model 的 max_seq_length 很大（可以理解更長的文字資料），或是所有知識庫當中的文字資料，都可以被當前使用的 embedding model 的 max_seq_length 所含括，有時候不進行 chunking 也是一種選擇。
 
 3. **文件內容結構太複雜，怎麼辦？**
 
-    可以使用一些軟體或套件，將原始文件內容（如文字段落、表格等）轉變成結構化或半結構化的格式，例如 Dataframe、JSON、XML、CSV 等，再進行剖析，圖片的內容可以透過 OCR 技術進行擷取。
+    可以使用一些軟體或套件，將原始文件內容（如文字段落、表格等）轉變成結構化或半結構化的格式，例如 Dataframe、JSON、XML、CSV 等，再進行剖析；圖片的內容可以透過 OCR 技術進行擷取。
 
 4. **有其它檢索方案可以使用嗎？**
 
-    如果指的是案例中的向量檢索，可以考慮使用 [Huggingface: intfloat](https://huggingface.co/intfloat) 的 E5 模型，它是直接以 Question-Answer 成對關係的資料進行訓練，或許不需要進行 semantic search + re-ranking，直接以 QA 格式進行相似度比對。bge-m3 可以支援到 8192 tokens，如果其用其它 embedding model，要連同資料可能佔用的 tokens (例如可支援的 max_seq_length) 一起考慮進去。
+    如果指的是案例中的向量檢索，可以考慮使用 [Huggingface: intfloat](https://huggingface.co/intfloat) 的 E5 模型，它是直接以 Question-Answer 成對關係的資料進行訓練，或許不需要進行 semantic search + re-ranking，直接以 QA 格式進行相似度比對。bge-m3 可以支援到 8192 tokens，如果使用其它 embedding model，要連同資料可能佔用的 tokens (例如可支援的 max_seq_length，決定模型可以一次看完多少 tokens) 一起考慮進去。
 
     如果指的是以統計量為基礎的檢索方法，可以考慮使用 [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) 進行檢索。它結合了 [TF-IDF](https://zh.wikipedia.org/zh-tw/Tf-idf) 和[詞袋模型](https://zh.wikipedia.org/zh-tw/词袋模型)的特性，加入了文件平均長度等元素，增強了檢索的效果。
     
-    在實務中，BM25 通常可以達到很好的效果，若是沒有辦法使用向量檢索（例如沒有 GPU、主機效能不佳等因素），推薦使用 BM25，惟 BM25 需要針對特定領域建立關鍵字詞庫（例如 [jieba](https://github.com/fxsjy/jieba) 的 `jieba.load_userdict()` 功能），如果沒有預先整理出合適的關鍵字詞庫，檢索效果可能會不如預期。
+    在實務中，BM25 通常可以達到很好的效果，若是沒有辦法使用向量檢索（例如沒有 GPU、主機效能不佳等因素），推薦使用 BM25，惟 BM25 需要針對特定領域的任務建立關鍵字詞庫（例如 [jieba](https://github.com/fxsjy/jieba) 的 `jieba.load_userdict()` 功能），如果沒有預先整理出合適的關鍵字詞庫，檢索效果可能會不如預期。
 
 5. **一定要使用 Re-ranking 嗎？**
 
-    視任務需求而定，如果你只是希望找到跟查詢字串相似度高的文字資料（例如用 Question 搜尋很相似的 Question），語義搜尋就足夠了；倘若文字資料混雜了很多資訊，例如 Questions 和 Answers 都放在一起，沒有區分，使用 Re-ranking 的話，用來回答查詢字串的 Answers 有可能因為排名提升而被看見。
+    視任務需求而定。如果你只是希望找到跟查詢字串相似度高的文字資料（例如用 Question 搜尋很相似的 Question），語義搜尋就足夠了；倘若文字資料混雜了很多資訊，例如 Questions 和 Answers 都放在一起，沒有區分，使用 Re-ranking 的話，用來回答查詢字串的 Answers 有可能因為排名提升而被看見。
 
 6. **Pickle 檔案太大，怎麼辦？**
 
