@@ -38,11 +38,6 @@ conda remove -n rag --all
 - Ubuntu Linux Server 22.04
 - nVIDIA GeForce RTX 3090 * 1
 
-## 安裝套件
-```bash
-pip install -r requirements.txt
-```
-
 ## Bi-Encoder & Cross-Encoder
 - Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks [論文](https://arxiv.org/abs/1908.10084)
 ![](https://i.imgur.com/OAsiTUU.png)
@@ -80,6 +75,20 @@ pip install -r requirements.txt
     - `laws_full` -> 法律/法規的所有條文
     - `laws_part` -> 法律/法規的某個條文
     - `laws_sent` -> 法律/法規的特定條文的某一句話
+
+## 檔案說明
+- `chart.ipynb`: 透過簡單的視覺化，來評估應該使用哪種顆粒度來建立嵌入。
+- `conv.py`: 將知識庫當中的文字資料，連同嵌入一起儲存在 Pickle 檔案中。
+- `financial_laws.db`: 知識庫，以 sqlite3 的資料庫作為儲存資料的工具。
+- `requirements.txt`: 套件列表。
+- `run.py`: 對 Web API 發出請求，取得 LLM 回應的答案。
+- `test_dense_vector_search.py`: 檢視 semantic search + re-ranking 的結果。
+- `web_api.py`: 將 LLM 整合在 Web API 當中，接收請求，並生成回應。
+
+## 安裝套件
+```bash
+pip install -r requirements.txt
+```
 
 ## 操作指令
 1. 先使用 `chart.ipynb` 來評估要以整部法規、各別條文，還是條文的項、款、目來作為 chunks。
