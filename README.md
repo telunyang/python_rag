@@ -8,7 +8,7 @@
 圖：本範例的實作流程
 
 ## 從這裡可以學到什麼
-- 評估使用哪種顆粒度的資料來作為背景知識。
+- 評估使用哪種[顆粒度](https://www.coursera.org/articles/data-granularity)的資料來作為背景知識（在這裡指的是 sentence-level、paragraph-level 和 document-level）。
 - 如何使用 semantic search 和 re-ranking。
 - 了解使用 RAG 和沒有使用 RAG 的差異。
 
@@ -140,7 +140,7 @@ pip install -r requirements.txt
 4. **有其它檢索方案可以使用嗎？**
 
     如果指的是案例中的向量檢索，可以考慮使用 [Huggingface: intfloat](https://huggingface.co/intfloat) 的 E5 模型，它是直接以 Question-Answer 成對關係的資料進行訓練，或許不需要進行 semantic search + re-reranking，直接以 QA 格式進行相似度比對。bge-m3 可以支援到 8192 tokens，如果其用其它 embedding model，要連同資料可能佔用的 tokens (例如可支援的 max_seq_length) 一起考慮進去。
-    如果指的是以統計量為基礎的檢索方法，可以考慮使用 [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) 進行檢索。它結合了 [TF-IDF](https://zh.wikipedia.org/zh-tw/Tf-idf) 和[詞袋模型](https://zh.wikipedia.org/zh-tw/词袋模型)的特性，加入了文件平均長度等元素，增強了檢索的效果。在實務中，BM25 通常可以達到很好的效果，若是沒有辦法使用向量檢索（例如沒有 GPU、主機效能不佳等因素），推薦使用 BM25，惟 BM25 需要針對特定領域建立關鍵字詞庫（例如 [jieba](https://github.com/fxsjy/jieba) 的 `jieba.load_userdict()` 功能），如果沒有預先處理完合適的關鍵字詞庫，檢索效果可能會不如預期。
+    如果指的是以統計量為基礎的檢索方法，可以考慮使用 [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) 進行檢索。它結合了 [TF-IDF](https://zh.wikipedia.org/zh-tw/Tf-idf) 和[詞袋模型](https://zh.wikipedia.org/zh-tw/词袋模型)的特性，加入了文件平均長度等元素，增強了檢索的效果。在實務中，BM25 通常可以達到很好的效果，若是沒有辦法使用向量檢索（例如沒有 GPU、主機效能不佳等因素），推薦使用 BM25，惟 BM25 需要針對特定領域建立關鍵字詞庫（例如 [jieba](https://github.com/fxsjy/jieba) 的 `jieba.load_userdict()` 功能），如果沒有預先整理出合適的關鍵字詞庫，檢索效果可能會不如預期。
 
 5. **一定要使用 Re-ranking 嗎？**
 
