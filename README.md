@@ -8,7 +8,8 @@
 圖：本範例的實作流程
 
 ## 從這裡可以學到什麼
-- 評估使用哪種[顆粒度](https://www.coursera.org/articles/data-granularity)的資料來作為背景知識（在這裡指的是 sentence-level、paragraph-level 和 document-level）。
+- 評估使用哪種[顆粒度](https://www.coursera.org/articles/data-granularity)（Granularity）的資料來作為背景知識。
+  - 在這裡指的是 sentence-level、paragraph-level 和 document-level。
 - 如何使用 semantic search 和 re-ranking。
 - 了解使用 RAG 和沒有使用 RAG 的差異。
 
@@ -44,15 +45,15 @@ conda remove -n rag --all
 圖：雙向編碼器與交叉編碼器
 
 ## 會使用到的模型
-嵌入模型
+Embedding model:
   - BAAI/**bge-m3** [連結](https://huggingface.co/BAAI/bge-m3) [論文](https://arxiv.org/abs/2402.03216)
-    - 雙向編碼器
+    - 雙向編碼器。
     - 提供語義搜尋 (semantic search) 的功能：依「相似度」對文字（句子、段落、文件等）的 embeddings 進行排序。
     - 支援最高 8192 tokens，會產生 embeddings。
     - 幫助我們理解從資料庫檢索/查詢出來的知識（法規、條文）。
     - 使用 Question 搜尋相似的 Text (Question)。
   - BAAI/**bge-reranker-large** [連結](https://huggingface.co/BAAI/bge-reranker-large)
-    - 交叉編碼器
+    - 交叉編碼器。
     - 提供重新排序 (re-rank) 的功能：依「相關性」對文字（句子、段落、文件等）的 embeddings 進行重新排序。
     - 僅重新排序 embeddings，不會另外產生 embeddings。
     - 使用 Question 找出相關性高的 Text (Answer)。
@@ -77,8 +78,8 @@ conda remove -n rag --all
     - `laws_sent` -> 法律/法規的特定條文的某一句話
 
 ## 檔案說明
-- `chart.ipynb`: 透過簡單的視覺化，來評估應該使用哪種顆粒度來建立嵌入。
-- `conv.py`: 將知識庫當中的文字資料，連同嵌入一起儲存在 Pickle 檔案中。
+- `chart.ipynb`: 透過簡單的視覺化，來評估應該使用哪種顆粒度來建立 embeddings。
+- `conv.py`: 將知識庫當中的文字資料，連同 embeddings 一起儲存在 Pickle 檔案中。
 - `financial_laws.db`: 知識庫，以 sqlite3 的資料庫作為儲存資料的工具。
 - `requirements.txt`: 套件列表。
 - `run.py`: 對 Web API 發出請求，取得 LLM 回應的答案。
