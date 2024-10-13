@@ -112,21 +112,31 @@ pip install -r requirements.txt
     # 切換至先前新增的 conda 虛擬環境
     conda activate rag
 
-    # 建立跟語言模型對話的服務
+    # 建立跟語言模型對話的服務 (使用 Flask 作為 Web Service)
     python web_api.py
 
-    # 離開 tmux session (不會終止 session)
+    # 離開 tmux session (不會關閉 session)
     先按下 ctrl + b 後，放掉，再按 d
 
     # 要再進入先前建立的終端機 session
     tmux a -t f_api
-
-    # 終止 session
-    進入 session，直接輸入 exit 後，按下 enter 即可
     ```
 4. 在 RAG 架構下，跟語言模型對話 (使用 `requests` 模擬互動)
     ```bash
     python run.py
+    ```
+5. 關閉 Web API 服務
+    ```bash
+    # 進入先前建立的終端機 session
+    tmux a -t f_api
+
+    # 關閉 Flask 服務
+    按下 Ctrl + C，確認目前是能夠輸入指令的狀態
+    ```
+6. 關閉 tmux session
+    ```bash
+    # 在可以輸入指令的狀態下
+    輸入 exit 後，按下 enter，回到 Terminal
     ```
 
 ## 有關文字生成的策略
