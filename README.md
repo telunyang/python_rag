@@ -131,7 +131,7 @@ pip install -r requirements.txt
     tmux a -t f_api
 
     # 關閉 Flask 服務
-    按下 Ctrl + C，確認目前是能夠輸入指令的狀態
+    按下 Ctrl + C，確認服務停止後即可
     ```
 6. 關閉 tmux session
     ```bash
