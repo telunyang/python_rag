@@ -21,7 +21,9 @@ logger = logging.getLogger(log_filename)
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(message)s')
 fileHandler = logging.FileHandler(
-    f'{log_filename}.log', mode='w', encoding='utf-8'
+    f'{log_filename}.log', 
+    mode='w', 
+    encoding='utf-8'
 )
 fileHandler.setFormatter(formatter)
 logger.addHandler(fileHandler)
@@ -71,8 +73,14 @@ tokenizer = AutoTokenizer.from_pretrained(llm_name)
 streamer = TextIteratorStreamer(tokenizer=tokenizer)
 
 # 讀取 embedding models
-bi_encoder = SentenceTransformer('BAAI/bge-m3', device='cuda:0')
-cross_encoder = CrossEncoder('BAAI/bge-reranker-large', device='cuda:0')
+bi_encoder = SentenceTransformer(
+    'BAAI/bge-m3', 
+    device='cuda:0'
+)
+cross_encoder = CrossEncoder(
+    'BAAI/bge-reranker-large', 
+    device='cuda:0'
+)
 
 # 讀取 embeddings 和 passages
 emb_file_path = "emb.pkl"
