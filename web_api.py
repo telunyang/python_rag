@@ -3,13 +3,13 @@ import pickle
 from threading import Thread
 import logging
 from sentence_transformers import (
-    SentenceTransformer, 
-    CrossEncoder, 
+    SentenceTransformer,
+    CrossEncoder,
     util
 )
 from transformers import (
-    AutoModelForCausalLM, 
-    AutoTokenizer, 
+    AutoModelForCausalLM,
+    AutoTokenizer,
     TextIteratorStreamer
 )
 from flask import Flask, request
@@ -21,8 +21,8 @@ logger = logging.getLogger(log_filename)
 logger.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(message)s')
 fileHandler = logging.FileHandler(
-    f'{log_filename}.log', 
-    mode='w', 
+    f'{log_filename}.log',
+    mode='w',
     encoding='utf-8'
 )
 fileHandler.setFormatter(formatter)
@@ -58,12 +58,16 @@ torch_dtype = torch.bfloat16 # or torch.float16
 
 # 讀取模型，自訂參數
 model = AutoModelForCausalLM.from_pretrained(
-    llm_name, 
+    llm_name,
     torch_dtype=torch_dtype,
 )
 
-# 使用 GPU
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+# 設定 CPU 或 GPU (cuda:0 或 mps)
+device = 'cpu'
+if torch.cuda.is_available():
+    device = 'cuda:0'
+elif torch.backends.mps.is_available():
+    device = 'mps'
 model.to(device)
 
 # 取得 model 的 tokenizer
@@ -74,12 +78,12 @@ streamer = TextIteratorStreamer(tokenizer=tokenizer)
 
 # 讀取 embedding models
 bi_encoder = SentenceTransformer(
-    'BAAI/bge-m3', 
-    device='cuda:0'
+    'BAAI/bge-m3',
+    device=device,
 )
 cross_encoder = CrossEncoder(
-    'BAAI/bge-reranker-large', 
-    device='cuda:0'
+    'BAAI/bge-reranker-large',
+    device=device
 )
 
 # 讀取 embeddings 和 passages
@@ -94,15 +98,15 @@ with open(emb_file_path, "rb") as fIn:
 def get_results(query, search_size, top_k):
     # 取得 query 的 embedding
     question_embedding = bi_encoder.encode(
-        query, 
-        batch_size=1, 
-        device='cuda:0'
+        query,
+        batch_size=1,
+        device=device
     )
 
     # 語義搜尋
     hits = util.semantic_search(
-        question_embedding, 
-        passage_embeddings, 
+        question_embedding,
+        passage_embeddings,
         top_k=search_size
     )
     hits = hits[0]
@@ -189,27 +193,27 @@ def generate():
         )
 
         # 將文字進行 tokenize，讓 model 能了解文字的結構與順序
-        inputs = tokenizer(tokenized_chat, return_tensors="pt").to('cuda:0')
+        inputs = tokenizer(tokenized_chat, return_tensors="pt").to(device)
 
         # 生成設定
         generation_kwargs = dict(
             input_ids=inputs.input_ids,
             attention_mask=inputs.attention_mask,
-            max_new_tokens=500, 
-            do_sample=True, 
-            temperature=0.2, 
-            top_k=50, 
+            max_new_tokens=500,
+            do_sample=True,
+            temperature=0.2,
+            top_k=50,
             top_p=0.9,
-            # num_beams=1, 
+            # num_beams=1,
             # no_repeat_ngram_size=3,
-            # early_stopping=True, 
+            # early_stopping=True,
             pad_token_id=tokenizer.eos_token_id,
-            streamer=streamer 
+            streamer=streamer
         )
 
         # 透過 thread 取得生成結果
         thread = Thread(target=model.generate, kwargs=generation_kwargs)
-        
+
         # 啟動 thread
         thread.start()
 
@@ -233,13 +237,13 @@ def generate():
 
     # 回傳 ai assistant 生成的回應
     return generate_responses()
-    
+
 # 主程式區域
 if __name__ == '__main__':
     app.debug = False
     app.json.ensure_ascii = False
     app.run(
-        host='127.0.0.1', # 0.0.0.0 
+        host='127.0.0.1', # 0.0.0.0
         port=5004
     )
 

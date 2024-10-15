@@ -1,9 +1,17 @@
 import sqlite3
 import pickle
+import torch
 from sentence_transformers import SentenceTransformer
 
+# 設定 CPU 或 GPU (cuda:0 或 mps)
+device = 'cpu'
+if torch.cuda.is_available():
+    device = 'cuda:0'
+elif torch.backends.mps.is_available():
+    device = 'mps'
+
 # 讀取 BGE-M3 的 model
-bi_encoder = SentenceTransformer('BAAI/bge-m3', device='cuda:0')
+bi_encoder = SentenceTransformer('BAAI/bge-m3', device=device)
 
 # 連接資料庫
 conn = sqlite3.connect("./financial_laws.db")
@@ -38,9 +46,9 @@ for index, obj in enumerate(stmt.fetchall()):
 
 # 建立嵌入/向量
 passage_embeddings = bi_encoder.encode(
-    passages, 
-    batch_size=2, 
-    device='cuda:0',
+    passages,
+    batch_size=2,
+    device=device,
     show_progress_bar=True
 )
 

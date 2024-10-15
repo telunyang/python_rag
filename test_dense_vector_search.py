@@ -3,12 +3,21 @@
 $ pip install sentence-transformers
 '''
 import pickle
+import torch
 from sentence_transformers import (
-    SentenceTransformer, 
-    CrossEncoder, 
+    SentenceTransformer,
+    CrossEncoder,
     util
 )
 
+'''
+設定 CPU 或 GPU (cuda:0 或 mps)
+'''
+device = 'cpu'
+if torch.cuda.is_available():
+    device = 'cuda:0'
+elif torch.backends.mps.is_available():
+    device = 'mps'
 
 '''
 查詢設定
@@ -39,13 +48,13 @@ print("=" * 80)
 Semantic Search 階段
 '''
 ##### Semantic Search #####
-bi_encoder = SentenceTransformer('BAAI/bge-m3', device='cuda:0')
+bi_encoder = SentenceTransformer('BAAI/bge-m3', device=device)
 
 # 取得 query 的 embedding
 question_embedding = bi_encoder.encode(
-    query, 
-    batch_size=1, 
-    device='cuda:0'
+    query,
+    batch_size=1,
+    device=device
 )
 
 # 透過語義搜尋檢索出來的文章數量
@@ -56,8 +65,8 @@ TOP_K = 5
 
 # 語義搜尋
 hits = util.semantic_search(
-    question_embedding, 
-    passage_embeddings, 
+    question_embedding,
+    passage_embeddings,
     top_k=SEARCH_SIZE
 )
 hits = hits[0]
@@ -75,7 +84,7 @@ print("=" * 80)
 Re-Ranking 階段
 '''
 ##### Re-Ranking #####
-cross_encoder = CrossEncoder('BAAI/bge-reranker-large', device='cuda:0')
+cross_encoder = CrossEncoder('BAAI/bge-reranker-large', device=device)
 
 # 用 cross_encoder 對所有檢索到的文章進行評分
 cross_inp = [[query, passages[hit['corpus_id']]] for hit in hits]

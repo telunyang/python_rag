@@ -39,11 +39,31 @@ conda activate rag
 conda remove -n rag --all
 ```
 
+## Pytorch GPU 環境設定
+### Windows 或 Linux
+```bash
+conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
+```
+### MacOS
+```bash
+conda install pytorch::pytorch torchvision torchaudio -c pytorch
+```
+
+
 ## 作業環境
+### Windows
+- Windows 11 Pro (23H2)
+- NVIDIA GeForce RTX 4090 * 1 (GPU memory: 24 GB)
+  - Driver Version: 561.09
+  - Cuda compilation tools, release 12.1, V12.1.66
+### Linux
 - Ubuntu 22.04.4 LTS
 - nVIDIA GeForce RTX 3090 * 1 (GPU memory: 24 GB)
   - Driver Version: 535.183.01
   - Cuda compilation tools, release 12.1, V12.1.66
+### MacOS
+- MacOS Sonoma 14.6.1
+- Apple M2 Max (CPU/GPU memory: 32 GB)
 
 ## Bi-Encoder & Cross-Encoder
 - Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks [論文](https://arxiv.org/abs/1908.10084)
@@ -66,7 +86,7 @@ Embedding model:
   - 以臺北市立圖書館的常見問答為例：[連結](https://tpml.gov.taipei/)
 
 語言模型
-  - MediaTek-Research/**Breeze-7B-Instruct-v1_0** [連結](https://huggingface.co/MediaTek-Research/Breeze-7B-Instruct-v1_0) 
+  - MediaTek-Research/**Breeze-7B-Instruct-v1_0** [連結](https://huggingface.co/MediaTek-Research/Breeze-7B-Instruct-v1_0)
 
 ## 背景知識來源
 - 全國法規資料庫 [連結](https://law.moj.gov.tw/)
@@ -153,10 +173,10 @@ pip install -r requirements.txt
 - Sampling
     ```python
     generation_kwargs = dict(
-        ... 
-        do_sample=True, 
-        temperature=0.7, 
-        top_k=50, 
+        ...
+        do_sample=True,
+        temperature=0.7,
+        top_k=50,
         top_p=0.9,
         ...
     )
@@ -165,8 +185,8 @@ pip install -r requirements.txt
     ```python
     generation_kwargs = dict(
         ...
-        do_sample=False, 
-        num_beams=5, 
+        do_sample=False,
+        num_beams=5,
         no_repeat_ngram_size=2,
         early_stopping=True,
         ...
@@ -195,7 +215,7 @@ pip install -r requirements.txt
     如果指的是案例中的向量檢索，可以考慮使用 [Huggingface: intfloat](https://huggingface.co/intfloat) 的 E5 模型，它是直接以 Question-Answer 成對關係的資料進行訓練，或許不需要進行 semantic search + re-ranking，直接以 QA 格式進行相似度比對。bge-m3 可以支援到 8192 tokens，如果使用其它 embedding model，要連同資料可能佔用的 tokens (例如可支援的 max_seq_length，決定模型可以一次看完多少 tokens) 一起考慮進去。
 
     如果指的是以統計量為基礎的檢索方法，可以考慮使用 [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) 進行檢索。它結合了 [TF-IDF](https://zh.wikipedia.org/zh-tw/Tf-idf) 和[詞袋模型](https://zh.wikipedia.org/zh-tw/词袋模型)的特性，加入了文件平均長度等元素，增強了檢索的效果。
-    
+
     在實務中，BM25 通常可以達到很好的效果，若是沒有辦法使用向量檢索（例如沒有 GPU、主機效能不佳等因素），推薦使用 BM25，惟 BM25 需要針對特定領域的任務建立關鍵字詞庫（例如 [jieba](https://github.com/fxsjy/jieba) 的 `jieba.load_userdict()` 功能），如果沒有預先整理出合適的關鍵字詞庫，檢索效果可能會不如預期。
 
 5. **一定要使用 Re-ranking 嗎？**
