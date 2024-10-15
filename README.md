@@ -171,7 +171,7 @@ pip install -r requirements.txt
 ## 有關文字生成的策略
 - 語言生成（language generation）以[自我回歸](https://zh.wikipedia.org/zh-tw/自我迴歸模型)（auto-regression）為基礎：
 ![](https://i.imgur.com/QJLbjC1.png)
-  - 單字序列的機率分佈，是透過計算條件機率來計算下一個單字分佈的乘積。舉例而言，當手機輸入文字的時候，系統會推薦或提供可能選擇的下一個字。
+  - 單字序列的機率分佈，是透過條件機率來計算下一個單字分佈的乘積。舉例而言，當手機輸入文字的時候，系統會推薦或提供可能選擇的下一個字。
 - [How to generate text: using different decoding methods for language generation with Transformers](https://huggingface.co/blog/how-to-generate)
 - Sampling
     ```python
