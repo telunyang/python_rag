@@ -1,5 +1,8 @@
 # RAG 的實作與優化
 
+## 教學影片
+- [YouTube 連結](https://youtu.be/hYgqhe5JVZw)
+
 ## 架構與基本實作流程
 ![](https://i.imgur.com/QZxb7ZP.png)
 圖：RAG 常見架構
@@ -192,8 +195,6 @@ pip install -r requirements.txt
         ...
     )
     ```
-## 教學影片
-- [YouTube 連結](https://youtu.be/hYgqhe5JVZw)
 
 ## 常見問題
 1. **為什麼使用 RAG 當作問答系統的架構？**
