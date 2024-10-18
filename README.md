@@ -83,8 +83,8 @@ Embedding model:
     - 使用搜尋與查詢字串相似的文字，例如用 Question 找出相似的 Question。
   - BAAI/**bge-reranker-large** [連結](https://huggingface.co/BAAI/bge-reranker-large)
     - 交叉編碼器。
-    - 提供重新排序 (re-rank) 的功能：依「相關性」對文字（句子、段落、文件等）所代表的 embeddings 進行重新排序。
-    - 僅重新排序 embeddings，不會另外產生 embeddings。
+    - 提供重新排序 (re-rank) 的功能：依「相關性」對文字（句子、段落、文件等）進行重新排序。
+    - 僅重新排序 semantic search 的結果，不會另外產生 embeddings。
     - 找出可以回答問題的文字，例如找出與 Question 相關性高，可以用來回答 Question 的 Answer。
   - 以臺北市立圖書館的常見問答為例：[連結](https://tpml.gov.taipei/)
 
@@ -230,3 +230,11 @@ pip install -r requirements.txt
     有一種作法，就是將不同用途或種類的 Pickle 檔案區分開來，需要用到的時候才讀取，不需要則釋放，彈性地使用 Pickle 檔。
 
     如果你是進階使用者，可以考慮使用 [FAISS](https://github.com/facebookresearch/faiss)、[ElasticSearch](https://www.elastic.co/elasticsearch/vector-database)、[Milvus](https://milvus.io/)、[Weaviate](https://weaviate.io/) 等向量索引/資料庫儲存工具，可以更便利地使用/儲存向量。
+
+7. **一定要先使用 semantic search，才能使用 re-ranker 嗎？**
+
+    不一定。semantic search 通常是用來產生 embeddings，供其它可儲存 embeddings 如 FAISS 或 elasticsearch 等支援 Dense Vector Search 的工具，或是 model 本身，進行**大規模**的搜尋/檢索機制使用（找出與查詢文字相似的所有資訊）。
+
+    Re-ranker 如 bge-reranker-*，架構是採用 `XLMRobertaForSequenceClassification`，對 sequence 進行分類，所以能夠獨立運作，主要是使用 `query` 找出 `relevant passages/chunks`。
+    
+    可視任務情境來評估是否要將兩者整合成 pipeline，或是依需求獨立運作。
